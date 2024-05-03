@@ -45,7 +45,7 @@ const TasksList: React.FC<TaskListProps> = ({ task }) => {
           </div>
 
           {addedItems.map((item, index) => (
-            <ItemComponent item={item} index={index} />
+            <ItemComponent key={index} item={item} index={index} />
           ))}
           {/* <SortableList items={addedItems} /> */}
 
