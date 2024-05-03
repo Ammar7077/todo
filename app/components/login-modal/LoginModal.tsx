@@ -28,8 +28,7 @@ export default function LoginModal() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
       await axios
         .post(`${baseUrl}/auth/login`, data)
@@ -83,7 +82,14 @@ export default function LoginModal() {
                   required
                 />
               </FormControl>
-              <Button onClick={onSubmit}>Submit</Button>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSubmit();
+                }}
+              >
+                Submit
+              </Button>
             </Stack>
           </form>
         </ModalDialog>

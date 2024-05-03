@@ -28,9 +28,7 @@ export default function RegisterModal() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
     try {
       await axios
         .post(`${baseUrl}/auth/register`, data)
@@ -100,7 +98,7 @@ export default function RegisterModal() {
                   required
                 />
               </FormControl>
-              <Button type="button" onClick={onSubmit}>
+              <Button type="button" onClick={(e) => { e.preventDefault(); onSubmit(); }}>
                 Submit
               </Button>
             </Stack>
