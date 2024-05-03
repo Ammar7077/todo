@@ -13,11 +13,11 @@ import {
   ModalDialog,
   Typography,
   Input,
-  Button,
   FormControl,
   FormLabel,
   Select,
   MenuItem,
+  Button,
 } from "@mui/joy";
 import { MdDelete, MdEdit } from "react-icons/md";
 import axios from "axios";
@@ -43,29 +43,25 @@ function Task({ task }: any) {
     item_priority: "normal",
     item_due_date: Date.now(),
   });
-  
-  function formatDate(date: string | number | Date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
 
   const handleCancel = () => {
     setOpen(false);
-    setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
+    setNewItem({
+      name: "",
+      item_priority: "normal",
+      description: "",
+      item_due_date: Date.now(),
+    });
   };
 
   const handleCancelEdit = () => {
     setOpenEdit(false);
-    setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
+    setNewItem({
+      name: "",
+      item_priority: "normal",
+      description: "",
+      item_due_date: Date.now(),
+    });
   };
 
   const handleSaveItem = async () => {
@@ -87,7 +83,12 @@ function Task({ task }: any) {
           setTasks(response.data.user.tasks);
           alert("Task item added successfully.");
           console.log(response);
-          setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
+          setNewItem({
+            name: "",
+            item_priority: "normal",
+            description: "",
+            item_due_date: Date.now(),
+          });
         })
         .catch((err: any) => console.log(err.message));
     } catch (error: any) {
@@ -217,6 +218,7 @@ function Task({ task }: any) {
           </Typography>
           <Typography level="body-sm">{task.description}</Typography>
         </CardContent>
+
         <IconButton
           onClick={() => handleShare(task._id)}
           color="primary"
@@ -234,11 +236,7 @@ function Task({ task }: any) {
         >
           <MdDelete />
         </IconButton>
-        <Button
-          onClick={() => openAddModal(task._id)}
-          variant="contained"
-          color="success"
-        >
+        <Button onClick={() => openAddModal(task._id)} color="success">
           Add Item
         </Button>
       </Box>
@@ -284,7 +282,6 @@ function Task({ task }: any) {
                 >
                   <Typography level="title-lg">{item.name}</Typography>
                   <Typography level="title-sm">{item.description}</Typography>
-                  <Typography level="title-sm">{formatDate(item.item_due_date)}</Typography>
                 </Box>
               </Box>
               <Button
@@ -316,100 +313,97 @@ function Task({ task }: any) {
             <FormLabel>Description</FormLabel>
             <Input
               value={newItem.description}
-              onChange={handleChange}
-              placeholder="Enter item description"
-              name="description"
-            />
-          </FormControl>
-          <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Priority</FormLabel>
-            <Select
-              value={newItem.item_priority}
-              onChange={handleChange}
-              name="item_priority"
-            >
-              <MenuItem value="low">Low</MenuItem>
-              <MenuItem value="normal">Normal</MenuItem>
-              <MenuItem value="high">High</MenuItem>
-            </Select>
-          </FormControl>
-
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-            <Button onClick={handleCancel} variant="outlined" sx={{ mr: 2 }}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSaveItem}
-              variant="contained"
-              color="primary"
-            >
-              Save
-            </Button>
-          </Box>
-        </ModalDialog>
-      </Modal>
-
-      <Modal open={openEdit} onClose={handleCancelEdit}>
-        <ModalDialog>
-          <ModalClose onClick={handleCancelEdit} />
-          <Typography level="title-lg">Update Item</Typography>
-          <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Name</FormLabel>
-            <Input
-              value={newItem.name}
-              onChange={handleChange}
-              placeholder="Enter item name"
-              name="name"
-              autoFocus
-            />
-          </FormControl>
-          <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Description</FormLabel>
-            <Input
-              value={newItem.description}
-              onChange={handleChange}
-              placeholder="Enter item description"
-              name="description"
-            />
-          </FormControl>
-          <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Priority</FormLabel>
-            <select
-              value={newItem.item_priority}
-              onChange={handleChange}
-              name="item_priority"
-            >
-              <option value="low">Low</option>
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-            </select>
-          </FormControl>
-          <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Time</FormLabel>
-            <Input
-              value={newItem.item_due_date}
-              onChange={handleChange}
-              placeholder="Enter item item_due_date"
-              name="item_due_date"
-              type="date"
-            />
-          </FormControl>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-            <Button
-              onClick={handleCancelEdit}
-              variant="outlined"
-              sx={{ mr: 2 }}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleEdit} variant="coFntained" color="primary">
-              Save
-            </Button>
-          </Box>
-        </ModalDialog>
-      </Modal>
-    </Card>
-  );
-}
-
-export default Task;
+                onChange={handleChange}
+                placeholder="Enter item description"
+                name="description"
+              />
+            </FormControl>
+            <FormControl sx={{ mt: 2 }} required>
+              <FormLabel>Priority</FormLabel>
+              <select
+                value={newItem.item_priority}
+                onChange={handleChange}
+                name="item_priority"
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+              </select>
+            </FormControl>
+  
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+              <Button onClick={handleCancel} variant="outlined" sx={{ mr: 2 }}>
+                Cancel
+              </Button>
+              <Button onClick={handleSaveItem} color="primary">
+                Save
+              </Button>
+            </Box>
+          </ModalDialog>
+        </Modal>
+  
+        <Modal open={openEdit} onClose={handleCancelEdit}>
+          <ModalDialog>
+            <ModalClose onClick={handleCancelEdit} />
+            <Typography level="title-lg">Update Item</Typography>
+            <FormControl sx={{ mt: 2 }} required>
+              <FormLabel>Name</FormLabel>
+              <Input
+                value={newItem.name}
+                onChange={handleChange}
+                placeholder="Enter item name"
+                name="name"
+                autoFocus
+              />
+            </FormControl>
+            <FormControl sx={{ mt: 2 }} required>
+              <FormLabel>Description</FormLabel>
+              <Input
+                value={newItem.description}
+                onChange={handleChange}
+                placeholder="Enter item description"
+                name="description"
+              />
+            </FormControl>
+            <FormControl sx={{ mt: 2 }} required>
+              <FormLabel>Priority</FormLabel>
+              <select
+                value={newItem.item_priority}
+                onChange={handleChange}
+                name="item_priority"
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+              </select>
+            </FormControl>
+            <FormControl sx={{ mt: 2 }} required>
+              <FormLabel>Time</FormLabel>
+              <Input
+                value={newItem.item_due_date}
+                onChange={handleChange}
+                placeholder="Enter item item_due_date"
+                name="item_due_date"
+                type="date"
+              />
+            </FormControl>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+              <Button
+                onClick={handleCancelEdit}
+                variant="outlined"
+                sx={{ mr: 2 }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleEdit} color="primary">
+                Save
+              </Button>
+            </Box>
+          </ModalDialog>
+        </Modal>
+      </Card>
+    );
+  }
+  
+  export default Task;
+  
