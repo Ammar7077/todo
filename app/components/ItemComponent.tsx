@@ -36,7 +36,7 @@ const ItemComponent: React.FC<ItemProps> = ({ index, item }) => {
         <dialog id={`modal_${index}`} className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">{item.name}</h3>
-            <TextField defaultValue={item.description} />
+            <TextField defaultValue={item.descrption} />
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
