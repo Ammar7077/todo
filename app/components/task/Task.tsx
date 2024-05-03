@@ -43,6 +43,20 @@ function Task({ task }: any) {
     item_priority: "normal",
     item_due_date: Date.now(),
   });
+  
+  function formatDate(date: string | number | Date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
   const handleCancel = () => {
     setOpen(false);
@@ -269,6 +283,7 @@ function Task({ task }: any) {
                 >
                   <Typography level="title-lg">{item.name}</Typography>
                   <Typography level="title-sm">{item.description}</Typography>
+                  <Typography level="title-sm">{formatDate(item.item_due_date)}</Typography>
                 </Box>
               </Box>
               <Button

@@ -1,5 +1,4 @@
-"use client"; // Marking the parent component as a Client Component
-
+"use client";
 import User from "@/atoms/user";
 import { baseUrl } from "@/settings";
 import getUserData from "@/utils/auth";
@@ -14,29 +13,42 @@ import Tasks from "@/atoms/tasks";
 export default function Home() {
   const [tasks, setTasks] = useRecoilState(Tasks);
   const [user, setUser] = useRecoilState(User);
-  const token = localStorage.getItem("accessToken");
+  let token: string = "";
+  if (typeof localStorage !== "undefined") {
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken !== null) {
+      token = storedToken;
+    }
+  }
 
   useEffect(() => {
-    const getUser = async () => {
-      if (token) {
-        const user = await getUserData(token);
-        setUser(user);
-        return user;
-      }
-    };
-    getUser();
+    if (typeof localStorage !== "undefined") {
+      const getUser = async () => {
+        if (token) {
+          const userData = await getUserData(token);
+          setUser(userData);
+          return userData;
+        }
+      };
+      getUser();
+    }
   }, []);
 
   const getTasks = async () => {
     if (user?._id) {
-      return await axios
-        .get(`${baseUrl}/users/todos/user/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => setTasks(response.data))
-        .catch((error) => console.log(error));
+      try {
+        const response = await axios.get(
+          `${baseUrl}/users/todos/user/${user._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setTasks(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
