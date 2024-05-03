@@ -31,12 +31,12 @@ const ItemComponent: React.FC<ItemProps> = ({ index, item }) => {
           onChange={handleCheckboxChange}
         />
         <div style={{ width: "1rem" }} />
-        <TextField defaultValue={item.item_name} />
+        <TextField defaultValue={item.name} />
         <div style={{ flexGrow: 99999 }} />
         <dialog id={`modal_${index}`} className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">{item.item_name}</h3>
-            <TextField defaultValue={item.item_desc} />
+            <h3 className="font-bold text-lg">{item.name}</h3>
+            <TextField defaultValue={item.description} />
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
