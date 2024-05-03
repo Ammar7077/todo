@@ -60,12 +60,12 @@ function Task({ task }: any) {
 
   const handleCancel = () => {
     setOpen(false);
-    setNewItem({ name: "", item_priority: "normal", description: "" });
+    setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
   };
 
   const handleCancelEdit = () => {
     setOpenEdit(false);
-    setNewItem({ name: "", item_priority: "normal", description: "" });
+    setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
   };
 
   const handleSaveItem = async () => {
@@ -87,7 +87,7 @@ function Task({ task }: any) {
           setTasks(response.data.user.tasks);
           alert("Task item added successfully.");
           console.log(response);
-          setNewItem({ name: "", item_priority: "normal", description: "" });
+          setNewItem({ name: "", item_priority: "normal", description: "", item_due_date: Date.now() });
         })
         .catch((err: any) => console.log(err.message));
     } catch (error: any) {
@@ -113,6 +113,7 @@ function Task({ task }: any) {
       name: item.name,
       description: item.description,
       item_priority: item.item_priority,
+      item_due_date: Date.now(),
     });
     setOpenEdit(true);
     setTodoItemId(id);
