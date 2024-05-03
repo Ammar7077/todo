@@ -25,6 +25,7 @@ import { baseUrl } from "@/settings";
 import { useRecoilState } from "recoil";
 import Tasks from "@/atoms/tasks";
 import User from "@/atoms/user";
+import { RxStarFilled } from "react-icons/rx";
 
 function Task({ task }: any) {
   const [open, setOpen] = useState(false);
@@ -40,6 +41,7 @@ function Task({ task }: any) {
     name: "",
     description: "",
     item_priority: "normal",
+    item_due_date: Date.now(),
   });
 
   const handleCancel = () => {
@@ -67,13 +69,13 @@ function Task({ task }: any) {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((response) => {
+        .then((response: any) => {
           setTasks(response.data.user.tasks);
           alert("Task item added successfully.");
           console.log(response);
           setNewItem({ name: "", item_priority: "normal", description: "" });
         })
-        .catch((err) => console.log(err.message));
+        .catch((err: any) => console.log(err.message));
     } catch (error: any) {
       console.log(error.message);
     }
@@ -129,8 +131,8 @@ function Task({ task }: any) {
           }
         )
         .then((res) => {
-          setTasks(res.data.user.tasks);
-          alert("Task item updated successfully.");
+          setTasks(res.data.tasks);
+          alert(res.data.message);
           setOpenEdit(false);
         })
         .catch((err) => console.log(err));
@@ -180,6 +182,10 @@ function Task({ task }: any) {
     }
   };
 
+  const handleShare = (id: string) => {
+    console.log({ id });
+  };
+
   return (
     <Card variant="outlined" sx={{ mb: 3 }}>
       <Box
@@ -196,11 +202,22 @@ function Task({ task }: any) {
           </Typography>
           <Typography level="body-sm">{task.description}</Typography>
         </CardContent>
+        <IconButton
+          onClick={() => handleShare(task._id)}
+          color="primary"
+          variant="soft"
+        >
+          <RxStarFilled />
+        </IconButton>
         <IconButton color="primary" variant="soft">
           <MdEdit />
         </IconButton>
-        <IconButton color="danger" variant="solid">
-          <MdDelete onClick={() => handleDeleteTodo(task._id)} />
+        <IconButton
+          onClick={() => handleDeleteTodo(task._id)}
+          color="danger"
+          variant="solid"
+        >
+          <MdDelete />
         </IconButton>
         <Button
           onClick={() => openAddModal(task._id)}
@@ -352,12 +369,12 @@ function Task({ task }: any) {
             </select>
           </FormControl>
           <FormControl sx={{ mt: 2 }} required>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>Time</FormLabel>
             <Input
-              value={newItem.description}
+              value={newItem.item_due_date}
               onChange={handleChange}
-              placeholder="Enter item description"
-              name="description"
+              placeholder="Enter item item_due_date"
+              name="item_due_date"
               type="date"
             />
           </FormControl>
@@ -369,7 +386,7 @@ function Task({ task }: any) {
             >
               Cancel
             </Button>
-            <Button onClick={handleEdit} variant="contained" color="primary">
+            <Button onClick={handleEdit} variant="coFntained" color="primary">
               Save
             </Button>
           </Box>

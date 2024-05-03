@@ -40,7 +40,7 @@ export default function LoginModal() {
             password: "",
           });
           localStorage.setItem("accessToken", response.data.accessToken);
-          setUser(response.data.newUser);
+          setUser(response.data.user);
         })
         .catch((reserror) => setError(reserror.response.data.error));
     } catch (error) {
