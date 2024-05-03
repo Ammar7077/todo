@@ -17,8 +17,7 @@ export default function AddTaskForm({ task, setOpen }: any) {
     description: "",
   });
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = async () => {
     if (!user) {
       return alert("Please log in");
     }
@@ -75,7 +74,13 @@ export default function AddTaskForm({ task, setOpen }: any) {
             required
           />
         </FormControl>
-        <Button onClick={onSubmit}>Submit</Button>
+        <Button onClick={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
+          Submit
+        </Button>
       </Stack>
     </form>
   );
